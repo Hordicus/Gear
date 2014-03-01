@@ -3,4 +3,8 @@ respawn = 2;
 respawnDelay = 0;
 disabledAI = 1;
 
-#include "client\gear\dialogs\gear_dialog.hpp"
+#include "gear\gear_dialog.hpp"
+
+class CfgFunctions {
+	#include "gear\cfgfunctions.hpp"
+};
