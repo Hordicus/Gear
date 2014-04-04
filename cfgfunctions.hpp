@@ -22,6 +22,8 @@ class GEAR {
 		class updateDialogImgs{};
 		class validAttachment{};
 		class getAttachments{};
+		class isForSale{};
+		class filterLoadout{};
 		
 		// AUTHOR: aeroson
 		class setLoadout{};

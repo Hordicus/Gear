@@ -1,4 +1,4 @@
-private ['_class', '_types', '_prices', '_classes', '_lookup'];
+private ['_class', '_types', '_prices', '_classes', '_lookup', '_index', '_price'];
 _types = ['guns', 'ammo', 'launchers', 'items', 'wearables', 'attachments'];
 _class = _this;
 
@@ -22,4 +22,11 @@ if ( isNil "GEAR_fnc_priceLookup" ) then {
 };
 
 _lookup = call GEAR_fnc_priceLookup;
-((_lookup select 1) select ((_lookup select 0) find _class))
+_index = (_lookup select 0) find _class;
+_price = 0;
+
+if ( _index > -1 ) then {
+	_price = (_lookup select 1) select _index;
+};
+
+_price

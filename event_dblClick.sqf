@@ -2,7 +2,7 @@
 _class = (_this select 0) lbData (_this select 1);
 
 if ( GEAR_activeNav == 'presets' ) then {
-	GEAR_activeLoadout = + [GEAR_presets, _class] call CBA_fnc_hashGet; // + creates copy
+	GEAR_activeLoadout = ([GEAR_presets, _class] call CBA_fnc_hashGet) call GEAR_fnc_filterLoadout;
 
 	call GEAR_fnc_updateDialogImgs;
 	GEAR_activeContainer call GEAR_fnc_selectContainer;
