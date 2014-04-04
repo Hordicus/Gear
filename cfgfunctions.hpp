@@ -21,6 +21,7 @@ class GEAR {
 		class toLoadoutArray{};
 		class updateDialogImgs{};
 		class validAttachment{};
+		class getAttachments{};
 		
 		// AUTHOR: aeroson
 		class setLoadout{};

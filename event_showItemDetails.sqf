@@ -9,11 +9,8 @@ _sold_attachments = [_config, "attachments"] call CBA_fnc_hashGet;
 _class  = lbData [GEAR_itemslist_idc, _index];
 
 _compatible_ammo = getArray (configFile >> "CfgWeapons" >> _class >> "magazines");
-_compatible_cows = getArray (configFile >> "CfgWeapons" >> _class >> "WeaponSlotsInfo" >> "CowsSlot" >> "compatibleItems");
-_compatible_muzzles = getArray (configFile >> "CfgWeapons" >> _class >> "WeaponSlotsInfo" >> "MuzzleSlot" >> "compatibleItems");
-_compatible_pointers = getArray (configFile >> "CfgWeapons" >> _class >> "WeaponSlotsInfo" >> "PointerSlot" >> "compatibleItems");
 
-_compatible_attachments = _compatible_cows + _compatible_muzzles + _compatible_pointers;
+_compatible_attachments = [_class] call GEAR_fnc_getAttachments;
 
 _items = [];
 
