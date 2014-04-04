@@ -8,13 +8,21 @@ _sold_ammo = [_config, "ammo"] call CBA_fnc_hashGet;
 _sold_attachments = [_config, "attachments"] call CBA_fnc_hashGet;
 _class  = lbData [GEAR_itemslist_idc, _index];
 
-_compatible_ammo = getArray (configFile >> "CfgWeapons" >> _class >> "magazines");
-
 _compatible_attachments = [_class] call GEAR_fnc_getAttachments;
 
 _items = [];
 
 if ( GEAR_activeSubNav == 'ammo' ) then {
+	_compatible_ammo = getArray (configFile >> "CfgWeapons" >> _class >> "magazines");
+	
+	// Check muzzles for ammo types
+	{
+		if ( _x != 'this' ) then {
+			_compatible_ammo = _compatible_ammo + getArray (configFile >> "CfgWeapons" >> _class >> _x >> "magazines");
+		};
+	} count (getArray (configFile >> "CfgWeapons" >> _class >> "muzzles"));
+	
+	
 	{
 		_class = _x;
 		{
