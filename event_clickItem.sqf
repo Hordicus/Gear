@@ -14,6 +14,37 @@ if ( _btn == 0 ) then { // Left click
 		case (GEAR_select_backpack_idc): {
 			'backpack' call GEAR_fnc_selectContainer;
 		};
+		
+		case (GEAR_primary_idc);
+		case (GEAR_secondary_idc);
+		case (GEAR_pistol_idc): {
+			
+			_nav = _ctrlIDC call {
+				if (_this == (GEAR_primary_idc)) exitwith{'guns'};
+				if (_this == (GEAR_pistol_idc)) exitwith{'guns'};
+				if (_this == (GEAR_secondary_idc)) exitwith{'launchers'};
+			};
+		
+			_current_gun = GEAR_activeLoadout select (_ctrlIDC call {
+				if (_this == (GEAR_primary_idc)) exitwith{GEAR_index_primary};
+				if (_this == (GEAR_pistol_idc)) exitwith{GEAR_index_pistol};
+				if (_this == (GEAR_secondary_idc)) exitwith{GEAR_index_secondary};
+			});
+			
+			// Activate weapons list
+			_nav call compile preprocessFileLineNumbers 'gear\event_showItems.sqf';
+			GEAR_activeNav = _nav;
+			
+			call compile preprocessFileLineNumbers 'gear\event_updateTabs.sqf';
+			
+			// Select weapon
+			_list = (findDisplay GEAR_dialog_idc) displayCtrl GEAR_itemslist_idc;
+			for "_i" from 0 to (lbSize _list) do {
+				if ( (_list lbData _i) == _current_gun ) exitwith {
+					_list lbSetCurSel _i;
+				};
+			};
+		};
 	};
 }
 else { if ( _btn == 1 ) then { // Right click
