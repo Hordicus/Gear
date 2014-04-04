@@ -101,7 +101,7 @@ else {
 					_magazines = getArray ( configFile >> "CfgWeapons" >> _gun >> "magazines" );
 					_active_mag = (_x + 4) call _get_item;
 					
-					if ( _class in _magazines && ( _class != _active_mag ) ) exitwith {
+					if ( ({_x == _class} count _magazines) == 1 && ( _class != _active_mag ) ) exitwith {
 						GEAR_activeLoadout set [_x + 4, _class];
 						_do_default = false;
 					};
