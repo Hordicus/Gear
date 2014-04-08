@@ -2,22 +2,24 @@
 
 	AUTHOR: aeroson
 	NAME: set_loadout.sqf
-	VERSION: 4.1
+	VERSION: 4.3
 	
 	DOWNLOAD & PARTICIPATE:
 	https://github.com/aeroson/a3-loadout
 	http://forums.bistudio.com/showthread.php?148577-GET-SET-Loadout-(saves-and-loads-pretty-much-everything)
 	
 	DESCRIPTION:
+	I guarantee backwards compatibility.
 	These scripts allows you set/get (load/save)all of the unit's gear, including:
-	uniform, vest, backpack, contents of it, all quiped items, all three weapons with their attachments, currently loaded magazines and number of ammo in magazines
+	uniform, vest, backpack, contents of it, all quiped items, all three weapons with their attachments, currently loaded magazines and number of ammo in magazines.
+	All this while preserving order of items.
 	Useful for saving/loading loadouts. 
 	Ideal for revive scripts where you have to set exactly the same loadout to newly created unit.
 	Uses workaround with placeholders to add vest/backpack items, so items stay where you put them.
 	
 	PARAMETER(S):
 	0 : target unit
-	1 : array of strings/arrays containing desired target unit's loadout, obtained from fnc_get_loadout.sqf
+	1 : array of strings/arrays containing desired target unit's loadout, obtained from get_loadout.sqf
 	2 : (optional) array of options, default [] : ["ammo"]  will allow loading of partially emptied magazines, otherwise magazines will be full 	 	
 	
 	addAction support:
@@ -25,7 +27,7 @@
   
 */
 
-private ["_target","_options","_loadMagsAmmo","_data","_loadedMagazines","_placeholderCount","_add","_outfit","_addWeapon","_addPrimary","_addHandgun","_addSecondary","_addOrder","_currentWeapon","_currentMode"];
+private ["_target","_options","_loadMagsAmmo","_data","_loadedMagazines","_placeholderCount","_loadBeforeAdd","_add","_outfit","_addWeapon","_addPrimary","_addHandgun","_addSecondary","_addOrder","_currentWeapon","_currentMode"];
 
 _options = [];
 
@@ -57,7 +59,7 @@ if(count _data < 13) exitWith {
 
 // placeholders
 #define PLACEHOLDER_BACKPACK QUOTE(B_Kitbag_mcamo) // any backpack with capacity>0
-#define PLACEHOLDER_ITEM QUOTE(ItemWatch) // item placeholder should be smallest item possible
+#define PLACEHOLDER_ITEM QUOTE(ItemWatch) // addItem placeholder should be smallest item possible
 
 _loadMagsAmmo = "ammo" in _options;
 _loadedMagazines = [];
@@ -80,28 +82,21 @@ _placeholderCount = 0;
 
 // basic add function intended for use with uniform and vest
 _add = {
-	private ["_target","_item"];
+	private ["_target","_item","_callback"];	
 	_target = _this select 0;
 	_item = _this select 1;
+	_callback = _this select 2;
 	if(typename _item == "ARRAY") then {
 		if(_item select 0 != "") then {
 			if(_loadMagsAmmo) then {
 				_target addMagazine _item;
 			} else {
-				_target addMagazine (_item select 0);
+				(_item select 0) call _callback;
 			};
 		};
 	} else {
 		if(_item != "") then {
-			if(isClass(configFile>>"CfgMagazines">>_item)) then {
-				_target addMagazine _item;
-			} else {
-				if(isClass(configFile>>"CfgWeapons">>_item>>"WeaponSlotsInfo") && getNumber(configFile>>"CfgWeapons">>_item>>"showempty")==1) then {
-					_target addWeapon _item;  
-				} else {
-					_target addItem _item;        
-				};
-			};
+			_item call _callback;
 		};
 	};
 };
@@ -111,23 +106,49 @@ removeUniform _target;
 removeVest _target;
 removeBackpack _target;
 
+
 _outfit = PLACEHOLDER_BACKPACK; // we need to add items somewhere before we can assign them
 _target addBackpack _outfit;
 clearAllItemsFromBackpack _target;
 removeAllAssignedItems _target;
+removeHeadgear _target;
+removeGoggles _target;
 
 // add loaded magazines of assigned items
 if(count _loadedMagazines>=3) then {
 	{ 
-		[_target,_x] call _add;
+		[_target, _x, { _target addItemToBackpack _x }] call _add;
 	} forEach (_loadedMagazines select 3);
 };
 
 // add assigned items
 { 
-	[_target,_x] call _add;
+	[_target, _x, { _target addItemToBackpack _x }] call _add;
 	_target assignItem _x;
 } forEach (_data select 0);
+
+clearAllItemsFromBackpack _target;
+
+// get assigned items, headgear and goggles is not part of assignedItems
+private ["_assignedItems","_headgear","_goggles"];
+_assignedItems = assignedItems _target;
+_headgear = headgear _target;
+_goggles = goggles _target;
+if((_headgear != "") && !(_headgear in _assignedItems)) then {
+	_assignedItems set [count _assignedItems, _headgear];
+};
+if((_goggles != "") && !(_goggles in _assignedItems)) then {
+	_assignedItems set [count _assignedItems, _goggles];
+};
+// add asigned items that could not be added with assign item
+// asuming each assigned item can be put only into one slot
+{
+	if(!(_x in _assignedItems)) then {
+		_target addWeapon _x;
+	}
+} forEach (_data select 0);
+
+
 
 // universal add weapon to hands
 _addWeapon = {
@@ -161,7 +182,7 @@ _addWeapon = {
 				};
 			};        	  
 			{
-				[_target, _x] call _add;
+				[_target, _x, { _target addItemToBackpack _x }] call _add;
 			} forEach _magazines; // add magazines							
 			_target addWeapon _weapon;                                                                                                                
 			{ 
@@ -216,7 +237,7 @@ _addSecondary = {
 };
 
 
-// first added weapon is selected, order add functions to firstly add currently selected weapon
+// first added weapon is selected weapon, order add functions to firstly add currently selected weapon
 _addOrder=[_addPrimary,_addHandgun,_addSecondary];
 if(_currentWeapon!="") then {
 	_addOrder = switch _currentWeapon do { 
@@ -258,7 +279,7 @@ if(_outfit != "") then {
 		if(loadUniform _target > 0) then {
 			_placeholderCount = _placeholderCount + 1;
 			{ 
-				[_target,_x] call _add; 
+				[_target, _x, { _target addItemToUniform _x }] call _add;
 			} forEach (_data select 8);			
 			while{true} do {
 				_loadBeforeAdd = loadUniform _target;
@@ -281,7 +302,7 @@ if(_outfit != "") then {
 		if(loadVest _target > 0) then {
 			_placeholderCount = _placeholderCount + 1;	
 			{ 
-				[_target,_x] call _add;
+				[_target, _x, { _target addItemToVest _x }] call _add;
 			} forEach (_data select 10);
 			while{true} do {
 				_loadBeforeAdd = loadVest _target;
@@ -295,38 +316,6 @@ if(_outfit != "") then {
 	};
 };      
  
-// more complex add function intended for use with backpack
-_add = {
-	private ["_target","_item"];
-	_target = _this select 0;
-	_item = _this select 1;
-	if(typename _item == "ARRAY") then {
-		if(_item select 0 != "") then {
-			if(_loadMagsAmmo) then {
-				_target addMagazine _item;
-			} else {
-				_target addMagazine (_item select 0);
-			};
-		};
-	} else {
-		if(isClass(configFile>>"CfgMagazines">>_item)) then {
-			(unitBackpack _target) addMagazineCargo [_item,1];
-		} else {
-			if(_item != "") then {
-				if(getNumber(configFile>>"CfgVehicles">>_item>>"isbackpack")==1) then {
-					(unitBackpack _target) addBackpackCargo [_item,1];  
-				} else {
-					if(isClass(configFile>>"CfgWeapons">>_item>>"WeaponSlotsInfo") && getNumber(configFile>>"CfgWeapons">>_item>>"showempty")==1) then {
-						(unitBackpack _target) addWeaponCargo [_item,1];  
-					} else {
-						_target addItem _item;         
-					};
-				};
-			};
-		};
-	};       
-};     
-
 // add backpack and add backpack items
 removeBackpack _target;
 _outfit = _data select 11; 
@@ -338,7 +327,7 @@ if(_outfit != "") then {
 		_placeholderCount = _placeholderCount + 1;
 		if(loadBackpack _target > 0) then {		
 			{
-				[_target, _x] call _add;
+				[_target, _x, { _target addItemToBackpack _x }] call _add;
 			} forEach (_data select 12);
 		};
 	} else {
