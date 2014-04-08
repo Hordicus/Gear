@@ -277,7 +277,7 @@ if(_outfit != "") then {
 		_target addUniform _outfit;
 		_target addItem PLACEHOLDER_ITEM;
 		if(loadUniform _target > 0) then {
-			_placeholderCount = _placeholderCount + 1;
+			_target removeItemFromUniform PLACEHOLDER_ITEM;
 			{ 
 				[_target, _x, { _target addItemToUniform _x }] call _add;
 			} forEach (_data select 8);			
@@ -300,7 +300,7 @@ if(_outfit != "") then {
 		_target addVest _outfit;
 		_target addItem PLACEHOLDER_ITEM;
 		if(loadVest _target > 0) then {
-			_placeholderCount = _placeholderCount + 1;	
+			_target removeItemFromVest PLACEHOLDER_ITEM;
 			{ 
 				[_target, _x, { _target addItemToVest _x }] call _add;
 			} forEach (_data select 10);
@@ -324,8 +324,8 @@ if(_outfit != "") then {
 		_target addBackpack _outfit;                                                                    
 		clearAllItemsFromBackpack _target;
 		_target addItem PLACEHOLDER_ITEM;
-		_placeholderCount = _placeholderCount + 1;
-		if(loadBackpack _target > 0) then {		
+		if(loadBackpack _target > 0) then {
+			clearAllItemsFromBackpack _target;
 			{
 				[_target, _x, { _target addItemToBackpack _x }] call _add;
 			} forEach (_data select 12);
