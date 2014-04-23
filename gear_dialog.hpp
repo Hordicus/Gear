@@ -45,6 +45,54 @@ class GEAR_button : GEAR_common {
 	onMouseExit  = "(_this select 0) ctrlSetTextColor [1,1,1,1];";
 };
 
+class GEAR_combo {
+	access = 0;
+	type = 4;
+	colorSelect[] = {0, 0, 0, 1};
+	colorText[] = {1, 1, 1, 1};
+	colorBackground[] = {0, 0, 0, 1};
+	colorScrollbar[] = {1, 0, 0, 1};
+	soundSelect[] = {"\A3\ui_f\data\sound\RscCombo\soundSelect", 0.1, 1};
+	soundExpand[] = {"\A3\ui_f\data\sound\RscCombo\soundExpand", 0.1, 1};
+	soundCollapse[] = {"\A3\ui_f\data\sound\RscCombo\soundCollapse", 0.1, 1};
+	maxHistoryDelay = 1;
+	style = "0x10 + 0x200";
+	x = 0;
+	y = 0;
+	w = 0.12;
+	h = 0.035;
+	shadow = 0;
+	colorSelectBackground[] = {1, 1, 1, 0.7};
+	arrowEmpty = "\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_ca.paa";
+	arrowFull = "\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_active_ca.paa";
+	wholeHeight = 0.45;
+	colorActive[] = {1, 0, 0, 1};
+	colorDisabled[] = {1, 1, 1, 0.25};
+	font = "PuristaMedium";
+	tooltipColorText[] = {1, 1, 1, 1};
+	tooltipColorBox[] = {1, 1, 1, 1};
+	tooltipColorShade[] = {0, 0, 0, 0.65};
+	sizeEx = 0.03;
+	
+	class ComboScrollBar {
+	  color[] = {1, 1, 1, 1};
+	  colorActive[] = {1, 1, 1, 1};
+	  colorDisabled[] = {1, 1, 1, 0.3};
+	  thumb = "\A3\ui_f\data\gui\cfg\scrollbar\thumb_ca.paa";
+	  arrowEmpty = "\A3\ui_f\data\gui\cfg\scrollbar\arrowEmpty_ca.paa";
+	  arrowFull = "\A3\ui_f\data\gui\cfg\scrollbar\arrowFull_ca.paa";
+	  border = "\A3\ui_f\data\gui\cfg\scrollbar\border_ca.paa";
+	  shadow = 0;
+	  scrollSpeed = 0.06;
+	  width = 0;
+	  height = 0;
+	  autoScrollEnabled = 0;
+	  autoScrollSpeed = -1;
+	  autoScrollDelay = 5;
+	  autoScrollRewind = 0;
+	};
+};
+
 class geard {
 
 	idd = GEAR_dialog_idc;
@@ -116,7 +164,7 @@ class geard {
 		
 		class GEAR_select_guns : GEAR_button {
 			x = safezoneX + ( safezoneW * 0.02 );
-			y = safezoneY + ( safezoneH * 0.01 ) + ( ((safezoneH * 0.05625) + (safezoneH * 0.01)) * 0 );
+			y = safezoneY + ( safezoneH * 0.04 ) + ( ((safezoneH * 0.05625) + (safezoneH * 0.01)) * 0 );
 			w = safezoneW * 0.05;
 			h = safezoneH * 0.05625;
 
@@ -128,7 +176,7 @@ class geard {
 		
 		class GEAR_select_launchers : GEAR_button {
 			x = safezoneX + ( safezoneW * 0.02 );
-			y = safezoneY + ( safezoneH * 0.01 ) + ( ((safezoneH * 0.05625) + (safezoneH * 0.01)) * 1 );
+			y = safezoneY + ( safezoneH * 0.04 ) + ( ((safezoneH * 0.05625) + (safezoneH * 0.01)) * 1 );
 			w = safezoneW * 0.05;
 			h = safezoneH * 0.05625;
 
@@ -140,7 +188,7 @@ class geard {
 		
 		class GEAR_select_items : GEAR_button {
 			x = safezoneX + ( safezoneW * 0.02 );
-			y = safezoneY + ( safezoneH * 0.01 ) + ( ((safezoneH * 0.05625) + (safezoneH * 0.01)) * 2 );
+			y = safezoneY + ( safezoneH * 0.04 ) + ( ((safezoneH * 0.05625) + (safezoneH * 0.01)) * 2 );
 			w = safezoneW * 0.05;
 			h = safezoneH * 0.05625;
 
@@ -152,7 +200,7 @@ class geard {
 		
 		class GEAR_select_wearables : GEAR_button {
 			x = safezoneX + ( safezoneW * 0.02 );
-			y = safezoneY + ( safezoneH * 0.01 ) + ( ((safezoneH * 0.05625) + (safezoneH * 0.01)) * 3 );
+			y = safezoneY + ( safezoneH * 0.04 ) + ( ((safezoneH * 0.05625) + (safezoneH * 0.01)) * 3 );
 			w = safezoneW * 0.05;
 			h = safezoneH * 0.05625;
 
@@ -164,7 +212,7 @@ class geard {
 		
 		class GEAR_select_presets : GEAR_button {
 			x = safezoneX + ( safezoneW * 0.02 );
-			y = safezoneY + ( safezoneH * 0.01 ) + ( ((safezoneH * 0.05625) + (safezoneH * 0.01)) * 4 );
+			y = safezoneY + ( safezoneH * 0.04 ) + ( ((safezoneH * 0.05625) + (safezoneH * 0.01)) * 4 );
 			w = safezoneW * 0.05;
 			h = safezoneH * 0.05625;
 
@@ -207,7 +255,7 @@ class geard {
 			text = "gear\icons\guns.paa";
 			
 			x = safezoneX + ( safezoneW * 0.02 );
-			y = safezoneY + ( safezoneH * 0.01 ) + ( ((safezoneH * 0.05625) + (safezoneH * 0.01)) * 0 );
+			y = safezoneY + ( safezoneH * 0.04 ) + ( ((safezoneH * 0.05625) + (safezoneH * 0.01)) * 0 );
 			w = safezoneW * 0.05;
 			h = safezoneH * 0.05625;
 		};
@@ -217,7 +265,7 @@ class geard {
 			text = "gear\icons\launchers.paa";
 
 			x = safezoneX + ( safezoneW * 0.02 );
-			y = safezoneY + ( safezoneH * 0.01 ) + ( ((safezoneH * 0.05625) + (safezoneH * 0.01)) * 1 );
+			y = safezoneY + ( safezoneH * 0.04 ) + ( ((safezoneH * 0.05625) + (safezoneH * 0.01)) * 1 );
 			w = safezoneW * 0.05;
 			h = safezoneH * 0.05625;
 		};
@@ -227,7 +275,7 @@ class geard {
 			text = "gear\icons\gear.paa";
 			
 			x = safezoneX + ( safezoneW * 0.02 );
-			y = safezoneY + ( safezoneH * 0.01 ) + ( ((safezoneH * 0.05625) + (safezoneH * 0.01)) * 2 );
+			y = safezoneY + ( safezoneH * 0.04 ) + ( ((safezoneH * 0.05625) + (safezoneH * 0.01)) * 2 );
 			w = safezoneW * 0.05;
 			h = safezoneH * 0.05625;
 		};
@@ -237,7 +285,7 @@ class geard {
 			text = "gear\icons\wearables.paa";
 			
 			x = safezoneX + ( safezoneW * 0.02 );
-			y = safezoneY + ( safezoneH * 0.01 ) + ( ((safezoneH * 0.05625) + (safezoneH * 0.01)) * 3 );
+			y = safezoneY + ( safezoneH * 0.04 ) + ( ((safezoneH * 0.05625) + (safezoneH * 0.01)) * 3 );
 			w = safezoneW * 0.05;
 			h = safezoneH * 0.05625;
 		};
@@ -247,9 +295,19 @@ class geard {
 			text = "gear\icons\presets.paa";
 			
 			x = safezoneX + ( safezoneW * 0.02 );
-			y = safezoneY + ( safezoneH * 0.01 ) + ( ((safezoneH * 0.05625) + (safezoneH * 0.01)) * 4 );
+			y = safezoneY + ( safezoneH * 0.04 ) + ( ((safezoneH * 0.05625) + (safezoneH * 0.01)) * 4 );
 			w = safezoneW * 0.05;
 			h = safezoneH * 0.05625;
+		};
+		
+		class GEAR_subTypes : GEAR_combo {
+			idc = GEAR_subTypes_idc;
+			x = safezoneX + (safezoneW * 0.05) + (safezoneW * 0.02);
+			y = safezoneY + ( safezoneH * 0.01 );
+			w = safezoneW * 0.26;
+			h = safezoneH * 0.03;
+			
+			onLBSelChanged = "'sub' call compile preprocessFileLineNumbers 'gear\event_showItems.sqf';";
 		};
 		
 		class GEAR_itemslist : GEAR_list {
@@ -257,9 +315,9 @@ class geard {
 			canDrag = 1;
 
 			x = safezoneX + (safezoneW * 0.05) + (safezoneW * 0.02);
-			y = safezoneY + ( safezoneH * 0.01 );
+			y = safezoneY + safezoneH * ( 0.01 + 0.03 );
 			w = safezoneW * 0.26;
-			h = safezoneH * 0.5;
+			h = safezoneH * 0.46;
 			onLBSelChanged = "call call compile preprocessFileLineNumbers 'gear\event_showItemDetails.sqf'";
 			onLBDblClick = "_this call compile preprocessFileLineNumbers 'gear\event_dblClick.sqf';";
 			onMouseButtonClick = "_this call compile preprocessFileLineNumbers 'gear\event_clickItem.sqf'";

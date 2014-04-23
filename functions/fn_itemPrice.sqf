@@ -8,13 +8,25 @@ if ( isNil "GEAR_fnc_priceLookup" ) then {
 	_prices = [];
 	
 	{
-		_items = [_config, _x] call CBA_fnc_hashGet;
+		_categories = [_config, _x] call CBA_fnc_hashGet;
 		
-		{
-			_classes set [count _classes, _x select 0];
-			_prices set [count _prices, _x select 1];
-			true
-		} count _items;
+		if ( typeName (_categories select 0 select 1) == "ARRAY" ) then {
+			{
+				{
+					_classes set [count _classes, _x select 0];
+					_prices set [count _prices, _x select 1];
+					true
+				} count (_x select 1);
+				true
+			} count _categories;
+		}
+		else {
+			{
+				_classes set [count _classes, _x select 0];
+				_prices set [count _prices, _x select 1];
+				true
+			} count _categories;
+		};
 		true
 	} count _types;
 	

@@ -97,6 +97,7 @@
 #define GEAR_select_presets_idc GEAR_idc_base + 77
 
 #define GEAR_preset_name_idc GEAR_idc_base + 78
+#define GEAR_subTypes_idc GEAR_idc_base + 79
 
 #define GET(ARRAY, INDEX, DEFAULT) if ( count ARRAY < INDEX || { isNil { ARRAY select INDEX } } ) then { DEFAULT } else { ARRAY select INDEX }
 
