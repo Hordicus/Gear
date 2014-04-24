@@ -24,6 +24,7 @@ class GEAR {
 		class getAttachments{};
 		class isForSale{};
 		class filterLoadout{};
+		class resetBackground{};
 		
 		// AUTHOR: aeroson
 		class setLoadout{};

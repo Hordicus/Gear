@@ -321,6 +321,8 @@ class geard {
 			onLBSelChanged = "call call compile preprocessFileLineNumbers 'gear\event_showItemDetails.sqf'";
 			onLBDblClick = "_this call compile preprocessFileLineNumbers 'gear\event_dblClick.sqf';";
 			onMouseButtonClick = "_this call compile preprocessFileLineNumbers 'gear\event_clickItem.sqf'";
+			onLBDrag = "_this call compile preprocessFileLineNumbers 'gear\event_drag.sqf';";
+			onLBDrop = "[] call GEAR_fnc_resetBackground;";
 		};
 		
 		class GEAR_select_ammo_bg : GEAR_button_bg {
@@ -346,6 +348,8 @@ class geard {
 		class GEAR_items_attachments_ammo : GEAR_list {
 			idc = GEAR_items_attachments_ammo_idc;
 			onLBDblClick = "_this call compile preprocessFileLineNumbers 'gear\event_dblClick.sqf';";
+			onLBDrag = "_this call compile preprocessFileLineNumbers 'gear\event_drag.sqf';";
+			onLBDrop = "[] call GEAR_fnc_resetBackground;";
 			canDrag = 1;
 
 			x = safezoneX + (safezoneW * 0.05) + (safezoneW * 0.02);

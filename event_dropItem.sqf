@@ -23,6 +23,8 @@ _type_indexes = [
 	GEAR_index_map, GEAR_index_gps, GEAR_index_radio, GEAR_index_compass, GEAR_index_watch
 ];
 
+[] call GEAR_fnc_resetBackground;
+
 _index = _idcs find _target;
 if ( _index >= 0 ) then {
 	_target_type = _types select _index;
