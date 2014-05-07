@@ -18,6 +18,7 @@
 	 "fireMode"
 */
 
+private ['_loadout', '_output', '_get_item', '_items'];
 _loadout = _this;
 _output  = [];
 
@@ -30,8 +31,8 @@ _get_item = {
 		_class = [];
 	};
 	
-	if ( count GEAR_activeLoadout > _this && { !isNil { GEAR_activeLoadout select _this } }) then {
-		_class = GEAR_activeLoadout select _this;
+	if ( count _loadout > _this && { !isNil { _loadout select _this } }) then {
+		_class = _loadout select _this;
 	};
 	
 	_class
