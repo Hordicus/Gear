@@ -46,7 +46,6 @@ for "_i" from 0 to count _slots - 1 do {
 			||
 			( _linkProxy == "\A3\data_f\proxies\weapon_slots\SIDE" && "PointerSlot" in _limit )
 		) then {
-			diag_log str (((inheritsFrom _entry) >> "compatibleItems"));
 			_compatible = _compatible + (((inheritsFrom _entry) >> "compatibleItems") call _getProperties);
 		};
 	};
