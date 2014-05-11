@@ -36,15 +36,15 @@ _bad = [];
 		_bad = _bad + (_x select 1);
 	}
 	else {
-		if ( _type != GEAR_type_muzzle || !([_x select 0, _class] call GEAR_fnc_validAttachment) ) then {
+		if ( _type != GEAR_type_muzzle || {!([_x select 0, _class] call GEAR_fnc_validAttachment)} ) then {
 			_bad set [count _bad, _x select 1 select 0];
 		};
 
-		if ( _type != GEAR_type_acc || !([_x select 0, _class] call GEAR_fnc_validAttachment) ) then {
+		if ( _type != GEAR_type_acc || {!([_x select 0, _class] call GEAR_fnc_validAttachment)} ) then {
 			_bad set [count _bad, _x select 1 select 1];
 		};
 
-		if ( _type != GEAR_type_optic || !([_x select 0, _class] call GEAR_fnc_validAttachment) ) then {
+		if ( _type != GEAR_type_optic || {!([_x select 0, _class] call GEAR_fnc_validAttachment)} ) then {
 			_bad set [count _bad, _x select 1 select 2];
 		};
 
