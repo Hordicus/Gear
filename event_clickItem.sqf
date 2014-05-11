@@ -76,6 +76,7 @@ else { if ( _btn == 1 ) then { // Right click
 			_contents = _contents - ["REMOVE"];
 			GEAR_activeLoadout set [_index, _contents];
 			GEAR_activeContainer call GEAR_fnc_selectContainer;
+			[] call GEAR_fnc_updateLoadoutInfo;
 		};
 	
 		case (GEAR_pistol_idc);

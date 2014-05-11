@@ -24,6 +24,4 @@ private ['_img', '_idc', '_tooltip', '_loadout_info'];
 	((findDisplay GEAR_dialog_idc) displayCtrl _idc) ctrlSetTooltip _tooltip;
 } forEach GEAR_activeLoadout;
 
-_loadout_info = parseText format['Total: $%1', GEAR_activeLoadout call GEAR_fnc_loadoutTotal];
-
-((findDisplay GEAR_dialog_idc) displayCtrl GEAR_purchase_info_idc) ctrlSetStructuredText _loadout_info;
+[] call GEAR_fnc_updateLoadoutInfo;

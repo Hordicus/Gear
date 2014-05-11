@@ -25,6 +25,7 @@ class GEAR {
 		class isForSale{};
 		class filterLoadout{};
 		class resetBackground{};
+		class updateLoadoutInfo{};
 		
 		// AUTHOR: aeroson
 		class setLoadout{};
