@@ -5,10 +5,11 @@ _limit = switch (_this select 1) do {
 	case 'muzzle': {["MuzzleSlot"]};
 	case 'acc': {["PointerSlot"]};
 	case 'optic': {["CowsSlot"]};
+	case 'bipod': {["UnderBarrelSlot"]};
 };
 
 if ( isNil "_limit" ) then {
-	_limit = ["MuzzleSlot", "PointerSlot", "CowsSlot"];
+	_limit = ["MuzzleSlot", "PointerSlot", "CowsSlot", "UnderBarrelSlot"];
 };
 
 _getProperties = {
@@ -38,13 +39,15 @@ for "_i" from 0 to count _slots - 1 do {
 	_entry = _slots select _i;
 	_entryName = configName _entry;
 	
-	if !( _entryName in ["MuzzleSlot", "PointerSlot", "CowsSlot"] ) then {
+	if !( _entryName in ["MuzzleSlot", "PointerSlot", "CowsSlot", "UnderBarrelSlot"] ) then {
 		_linkProxy = getText (_entry >> "linkProxy");
 		
 		if (
 			( _linkProxy == "\A3\data_f\proxies\weapon_slots\TOP" && "CowsSlot" in _limit )
 			||
 			( _linkProxy == "\A3\data_f\proxies\weapon_slots\SIDE" && "PointerSlot" in _limit )
+			||
+			( _linkProxy == "\A3\data_f\proxies\weapon_slots\UNDERBARREL" && "UnderBarrelSlot" in _limit )
 		) then {
 			_compatible = _compatible + (((inheritsFrom _entry) >> "compatibleItems") call _getProperties);
 		};
