@@ -8,6 +8,10 @@ class GEAR_common {
 	colorText[] = {1,1,1,1};
 	colorDisabled[] = {1,1,1,0.8};
 	colorSelect[] = {1,1,1,1};
+	colorPicture[] = {1,1,1,1};
+	colorPictureSelected[] = {1,1,1,1};
+	colorPictureDisabled[] = {1,1,1,1};
+	colorPictudeDisabled[] = {1,1,1,.25};
 	soundSelect[] = {"", 0.1, 1};
 	border = "#(argb,8,8,3)color(1,1,1,0)";
 	font = FontM;
